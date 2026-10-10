@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="FinTrack - A professional personal finance tracker"
+  />
+
+  <title>FinTrack — Personal Finance Tracker</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <div class="app-shell">
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+
+      <div class="brand">
+        <div class="brand-mark">$</div>
+
+        <div>
+          <strong>FinTrack</strong>
+          <span>Personal Finance</span>
+        </div>
+      </div>
+
+      <nav class="main-nav">
+
+        <button
+          class="nav-link active"
+          data-section="dashboard"
+        >
+          <span class="nav-icon">⌂</span>
+          Dashboard
+        </button>
+
+        <button
+          class="nav-link"
+          data-section="transactions"
+        >
+          <span class="nav-icon">↕</span>
+          Transactions
+        </button>
+
+        <button
+          class="nav-link"
+          data-section="budgets"
+        >
+          <span class="nav-icon">◫</span>
+          Budgets
+        </button>
+
+      </nav>
+
+      <!-- Savings Goal Sidebar Card -->
+      <div class="sidebar-card">
+
+        <span class="eyebrow">
+          Monthly goal
+        </span>
+
+        <h3 id="sidebarSavings">
+          ₹0
+        </h3>
+
+        <p id="sidebarGoalText">
+          Set your savings goal in the budget panel.
+        </p>
+
+        <div class="progress-track">
+          <div
+            class="progress-fill"
+            id="sidebarProgress"
+          ></div>
+        </div>
+
+      </div>
+
+      <!-- Theme -->
+      <div class="sidebar-footer">
+
+        <button
+          class="theme-btn"
+          id="themeToggle"
+        >
+          ◐
+          <span>Theme</span>
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main-content">
+
+      <!-- TOP BAR -->
+      <header class="topbar">
+
+        <div class="topbar-left">
+
+          <button
+            class="mobile-menu"
+            id="mobileMenu"
+            aria-label="Open menu"
+          >
+            ☰
+          </button>
+
+          <div>
+
+            <span
+              class="page-kicker"
+              id="pageKicker"
+            >
+              PERSONAL FINANCE
+            </span>
+
+            <h1 id="pageTitle">
+              Good to see you.
+            </h1>
+
+          </div>
+
+        </div>
+
+
+        <div class="topbar-actions">
+
+          <label class="month-picker">
+
+            <span>Month</span>
+
+            <select
+              id="monthSelect"
+              aria-label="Select month"
+            ></select>
+
+          </label>
+
+          <button
+            class="primary-btn"
+            id="openTransactionModal"
+          >
+            + Add Transaction
+          </button>
+
+        </div>
+
+      </header>
+
+
+      <!-- ================================================= -->
+      <!-- DASHBOARD -->
+      <!-- ================================================= -->
+
+      <section
+        class="page-section active"
+        id="section-dashboard"
+      >
+
+        <!-- HERO -->
+        <div class="hero-card">
+
+          <div>
+
+            <span class="eyebrow">
+              Financial overview
+            </span>
+
+            <h2>
+              Take control of your money.
+            </h2>
+
+            <p>
+              Track spending, manage your budget,
+              and build better saving habits.
+            </p>
+
+          </div>
+
+          <div class="hero-balance">
+
+            <span>
+              Current balance
+            </span>
+
+            <strong id="heroBalance">
+              ₹0
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="stats-grid">
+
+          <article class="stat-card">
+
+            <div class="stat-top">
+
+              <span>
+                Total Balance
+              </span>
+
+              <span class="stat-icon balance">
+                ₹
+              </span>
+
+            </div>
+
+            <strong id="totalBalance">
+              ₹0
+            </strong>
+
+            <small id="balanceNote">
+              Income minus expenses
+            </small>
+
+          </article>
+
+
+          <article class="stat-card">
+
+            <div class="stat-top">
+
+              <span>
+                Income
+              </span>
+
+              <span class="stat-icon income">
+                ↑
+              </span>
+
+            </div>
+
+            <strong id="totalIncome">
+              ₹0
+            </strong>
+
+            <small id="incomeNote">
+              This month
+            </small>
+
+          </article>
+
+
+          <article class="stat-card">
+
+            <div class="stat-top">
+
+              <span>
+                Expenses
+              </span>
+
+              <span class="stat-icon expense">
+                ↓
+              </span>
+
+            </div>
+
+            <strong id="totalExpense">
+              ₹0
+            </strong>
+
+            <small id="expenseNote">
+              This month
+            </small>
+
+          </article>
+
+
+          <article class="stat-card">
+
+            <div class="stat-top">
+
+              <span>
+                Savings Rate
+              </span>
+
+              <span class="stat-icon saving">
+                %
+              </span>
+
+            </div>
+
+            <strong id="savingRate">
+              0%
+            </strong>
+
+            <small id="savingNote">
+              Goal performance
+            </small>
+
+          </article>
+
+        </div>
+
+
+        <!-- CHARTS -->
+
+        <div class="dashboard-grid">
+
+          <!-- Cashflow -->
+
+          <article class="panel chart-panel">
+
+            <div class="panel-header">
+
+              <div>
+
+                <span class="eyebrow">
+                  Cash flow
+                </span>
+
+                <h3>
+                  Income vs expenses
+                </h3>
+
+              </div>
+
+              <span
+                class="mini-pill"
+                id="cashFlowPill"
+              >
+                Balanced
+              </span>
+
+            </div>
+
+            <div class="chart-wrap large">
+
+              <canvas
+                id="cashflowChart"
+              ></canvas>
+
+            </div>
+
+          </article>
+
+
+          <!-- Categories -->
+
+          <article class="panel chart-panel">
+
+            <div class="panel-header">
+
+              <div>
+
+                <span class="eyebrow">
+                  Spending
+                </span>
+
+                <h3>
+                  Expense breakdown
+                </h3>
+
+              </div>
+
+            </div>
+
+            <div class="donut-layout">
+
+              <div class="chart-wrap donut">
+
+                <canvas
+                  id="categoryChart"
+                ></canvas>
+
+              </div>
+
+              <div
+                class="legend"
+                id="categoryLegend"
+              ></div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- LOWER DASHBOARD -->
+
+        <div class="dashboard-grid bottom-grid">
+
+          <!-- Recent transactions -->
+
+          <article class="panel">
+
+            <div class="panel-header">
+
+              <div>
+
+                <span class="eyebrow">
+                  Activity
+                </span>
+
+                <h3>
+                  Recent transactions
+                </h3>
+
+              </div>
+
+              <button
+                class="text-btn"
+                data-jump="transactions"
+              >
+                View all
+              </button>
+
+            </div>
+
+            <div
+              class="transaction-list"
+              id="recentTransactions"
+            ></div>
+
+          </article>
+
+
+          <!-- Budget -->
+
+          <article class="panel">
+
+            <div class="panel-header">
+
+              <div>
+
+                <span class="eyebrow">
+                  Budget
+                </span>
+
+                <h3>
+                  Monthly spending
+                </h3>
+
+              </div>
+
+              <button
+                class="text-btn"
+                data-jump="budgets"
+              >
+                Manage
+              </button>
+
+            </div>
+
+            <div
+              id="budgetSummary"
+              class="budget-summary"
+            ></div>
+
+          </article>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================================================= -->
+      <!-- TRANSACTIONS -->
+      <!-- ================================================= -->
+
+      <section
+        class="page-section"
+        id="section-transactions"
+      >
+
+        <div class="section-heading">
+
+          <div>
+
+            <span class="eyebrow">
+              Money activity
+            </span>
+
+            <h2>
+              Transactions
+            </h2>
+
+            <p>
+              Add, search, filter, edit, and remove your transactions.
+            </p>
+
+          </div>
+
+          <button
+            class="primary-btn"
+            id="openTransactionModal2"
+          >
+            + Add Transaction
+          </button>
+
+        </div>
+
+
+        <article class="panel">
+
+          <!-- Toolbar -->
+
+          <div class="toolbar">
+
+            <input
+              class="search-input"
+              type="search"
+              id="transactionSearch"
+              placeholder="Search transactions..."
+            />
+
+            <select id="typeFilter">
+
+              <option value="all">
+                All types
+              </option>
+
+              <option value="income">
+                Income
+              </option>
+
+              <option value="expense">
+                Expense
+              </option>
+
+            </select>
+
+            <select id="categoryFilter">
+
+              <option value="all">
+                All categories
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- Table -->
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    Description
+                  </th>
+
+                  <th>
+                    Category
+                  </th>
+
+                  <th>
+                    Date
+                  </th>
+
+                  <th>
+                    Type
+                  </th>
+
+                  <th>
+                    Amount
+                  </th>
+
+                  <th></th>
+
+                </tr>
+
+              </thead>
+
+              <tbody
+                id="transactionsTable"
+              ></tbody>
+
+            </table>
+
+
+            <div
+              class="empty-state hidden"
+              id="transactionEmpty"
+            >
+
+              <div class="empty-icon">
+                ⌁
+              </div>
+
+              <h3>
+                No transactions found
+              </h3>
+
+              <p>
+                Try changing your filters
+                or add a new transaction.
+              </p>
+
+            </div>
+
+          </div>
+
+        </article>
+
+      </section>
+
+
+      <!-- ================================================= -->
+      <!-- BUDGETS -->
+      <!-- ================================================= -->
+
+      <section
+        class="page-section"
+        id="section-budgets"
+      >
+
+        <div class="section-heading">
+
+          <div>
+
+            <span class="eyebrow">
+              Plan ahead
+            </span>
+
+            <h2>
+              Budgets
+            </h2>
+
+            <p>
+              Set category limits and monitor your monthly spending.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="budget-grid"
+          id="budgetCards"
+        ></div>
+
+
+        <!-- Savings Goal -->
+
+        <article class="panel savings-goal-panel">
+
+          <div class="panel-header">
+
+            <div>
+
+              <span class="eyebrow">
+                Savings target
+              </span>
+
+              <h3>
+                Monthly savings goal
+              </h3>
+
+            </div>
+
+          </div>
+
+
+          <div class="goal-editor">
+
+            <div>
+
+              <strong id="goalAmountDisplay">
+                ₹0
+              </strong>
+
+              <p id="goalDescription">
+                Set a target to track your progress.
+              </p>
+
+            </div>
+
+
+            <div class="goal-actions">
+
+              <input
+                type="number"
+                id="savingsGoalInput"
+                min="0"
+                step="500"
+                placeholder="e.g. 10000"
+              />
+
+              <button
+                class="secondary-btn"
+                id="saveGoalBtn"
+              >
+                Save goal
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="progress-track large-track">
+
+            <div
+              class="progress-fill"
+              id="mainGoalProgress"
+            ></div>
+
+          </div>
+
+        </article>
+
+      </section>
+
+
+      <!-- FOOTER -->
+
+      <footer class="footer">
+
+        <span>
+          FinTrack © 2026
+        </span>
+
+        <span>
+          Built as a Day 14 Capstone
+        </span>
+
+      </footer>
+
+    </main>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- TRANSACTION MODAL -->
+  <!-- ================================================= -->
+
+  <div
+    class="modal hidden"
+    id="transactionModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+  >
+
+    <div
+      class="modal-backdrop"
+      data-close-modal
+    ></div>
+
+
+    <div class="modal-card">
+
+      <div class="modal-header">
+
+        <div>
+
+          <span class="eyebrow">
+            Money entry
+          </span>
+
+          <h2 id="modalTitle">
+            Add Transaction
+          </h2>
+
+        </div>
+
+        <button
+          class="icon-btn"
+          data-close-modal
+          aria-label="Close"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <form id="transactionForm">
+
+        <input
+          type="hidden"
+          id="transactionId"
+        />
+
+
+        <!-- Type -->
+
+        <div class="type-switch">
+
+          <label>
+
+            <input
+              type="radio"
+              name="transactionType"
+              value="expense"
+              checked
+            />
+
+            <span>
+              Expense
+            </span>
+
+          </label>
+
+
+          <label>
+
+            <input
+              type="radio"
+              name="transactionType"
+              value="income"
+            />
+
+            <span>
+              Income
+            </span>
+
+          </label>
+
+        </div>
+
+
+        <!-- Form -->
+
+        <div class="form-grid">
+
+          <label>
+
+            Description
+
+            <input
+              id="description"
+              type="text"
+              maxlength="60"
+              placeholder="e.g. Grocery shopping"
+              required
+            />
+
+          </label>
+
+
+          <label>
+
+            Amount
+
+            <input
+              id="amount"
+              type="number"
+              min="0.01"
+              step="0.01"
+              placeholder="e.g. 1250"
+              required
+            />
+
+          </label>
+
+
+          <label>
+
+            Category
+
+            <select
+              id="transactionCategory"
+              required
+            ></select>
+
+          </label>
+
+
+          <label>
+
+            Date
+
+            <input
+              id="transactionDate"
+              type="date"
+              required
+            />
+
+          </label>
+
+
+          <label class="full">
+
+            Note
+
+            <textarea
+              id="note"
+              rows="3"
+              maxlength="160"
+              placeholder="Optional note..."
+            ></textarea>
+
+          </label>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+          <button
+            type="button"
+            class="secondary-btn"
+            data-close-modal
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="primary-btn"
+            id="saveTransactionBtn"
+          >
+            Save Transaction
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <!-- Toast -->
+
+  <div
+    class="toast"
+    id="toast"
+  ></div>
+
+
+  <!-- JavaScript -->
+
+  <script src="script.js"></script>
+
+</body>
+</html>
